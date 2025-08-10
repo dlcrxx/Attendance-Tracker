@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: #021D44;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+        }
+
+        .signin-section {
+            width: 70%;
+            height: 100vh;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            z-index: 2;
+            background: #021D44;
+            backdrop-filter: blur(10px);
+            transition: z-index 0s 0.6s; /* Delay z-index change */
+        }
+
+        .signin-form {
+            background: rgba(78, 127, 177, 0.6);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            transform: translateX(0);
+            transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .signin-form h2 {
+            color: #ffffff;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            font-weight: 300;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #fffcfc;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .signin-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #021D44;;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .signin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .image-section {
+            position: relative;
+            width: 50%;
+            height: 100vh;
+            overflow: hidden;
+            transform: translateX(0);
+            transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1;
+        }
+
+        .sliding-image {
+            width: 220%;
+            height: 100%;
+            background: url("cloud.png") center/cover;
+            position: relative;
+            transform: translateX(0);
+            transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .image-content h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .image-content p {
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.3s forwards;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Sliding states - Smooth position switching */
+        .container.slid .signin-form {
+            transform: translateX(200%);
+        }
+
+        .container.slid .image-section {
+            transform: translateX(-100%);
+            z-index: 3; /* Bring image to front when sliding */
+        }
+
+        .container.slid .sliding-image {
+            transform: translateX(-50%);
+        }
+
+        .container.slid .signin-section {
+            z-index: 1; /* Send signin section to back when sliding */
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .signin-section {
+                flex: none;
+                height: 60vh;
+            }
+            
+            .signin-form {
+                padding: 2rem;
+                transform: translateY(0);
+                transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            
+            .image-section {
+                width: 100%;
+                height: 40vh;
+                transform: translateY(0);
+                transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            
+            .container.slid .signin-form {
+                transform: translateY(200%);
+            }
+            
+            .container.slid .image-section {
+                transform: translateY(-100%);
+            }
+        }
+
+        .success-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .success-message.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="signin-section">
+            <div class="signin-form">
+                <h2>Welcome Back</h2>
+                <form id="signinForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="signin-btn">Sign In</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="image-section">
+            <div class="sliding-image">
+                <div class="image-overlay">
+                    <div class="image-content">
+                        <h3>Join Our Community</h3>
+                        <p>Experience the future of digital collaboration and innovation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        <h3>🎉 Sign In Successful!</h3>
+        <p>Welcome to your dashboard</p>
+    </div>
+
+    <script>
+        let hasSlid = false;
+        
+        document.getElementById('signinForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!hasSlid) {
+                // First click - trigger slide animation
+                document.getElementById('container').classList.add('slid');
+                hasSlid = true;
+                
+                // Change button text
+                const btn = document.querySelector('.signin-btn');
+                btn.textContent = 'Complete Sign In';
+            } else {
+                // Second click - show success
+                const successMsg = document.getElementById('successMessage');
+                successMsg.classList.add('show');
+                
+                setTimeout(() => {
+                    successMsg.classList.remove('show');
+                    // Reset everything
+                    document.getElementById('container').classList.remove('slid');
+                    document.querySelector('.signin-btn').textContent = 'Sign In';
+                    hasSlid = false;
+                    document.getElementById('signinForm').reset();
+                }, 2500);
+            }
+        });
+    </script>
+</body>
+</html>
