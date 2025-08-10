@@ -1,0 +1,200 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: #F0F4FF;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 85px;
+  display: flex;
+  overflow-x: hidden;
+  flex-direction: column;
+  background: #ffffff;
+  padding: 25px 20px;
+  transition: all 0.4s ease;
+}
+
+.sidebar:hover {
+  width: 260px;
+}
+
+.sidebar .sidebar-header {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .sidebar-header img {
+  width: 42px;
+  border-radius: 50%;
+}
+
+.sidebar .sidebar-header span {
+  color: #021D44;
+  font-size: 1.25rem;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: 25px;
+}
+
+.sidebar-links {
+  list-style: none;
+  margin-top: 20px;
+  height: 80%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.sidebar-links::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar-links li a {
+  display: flex;
+  align-items: center;
+  gap: 0 20px;
+  color: #9197B3;
+  font-weight: 500;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  padding: 12px 10px;
+  text-decoration: none;
+  transition: 0.2s ease;
+  border-radius: 6px;
+}
+
+.sidebar-links li a:hover {
+  color: #ffffff;
+  background: #021D44;
+  border-radius: 10px;
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar-links .sidebar-profile {
+  margin-top: auto; /* pushes it to the bottom */
+}
+
+.main-content {
+  margin-left: 85px;
+  padding: 80px 20px 20px; /* push down content so it won't overlap top-bar */
+}
+
+.sidebar:hover ~ .main-content {
+  margin-left: 260px; /* expand when sidebar hovers */
+}
+
+/* Top bar */
+.top-bar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 60px; /* adjust as needed */
+  display: flex;
+  justify-content: flex-end; /* push profile to right */
+  align-items: center;
+  padding: 0 20px;
+  background: #F0F4FF;
+  width: calc(100% - 85px); /* subtract sidebar width */
+  z-index: 100;
+}
+
+.sidebar:hover ~ .main-content .top-bar {
+  width: calc(100% - 260px);
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.profile-section img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.profile-section .name {
+  font-weight: 500;
+  color: #021D44;
+  white-space: nowrap;
+}
+
+.profile-section .caret {
+  font-size: 1.2rem;
+  color: #021D44;
+}
+
+.sidebar:hover ~ .main-content {
+  margin-left: 260px;
+}
+
+/* Profile container */
+.profile-container {
+  position: relative;
+}
+
+/* Dropdown container */
+.dropdown-menu {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: white;
+  border-radius: 12px; /* iOS-style corners */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  min-width: 200px;
+  z-index: 100;
+  border: 1px solid rgba(0, 0, 0, 0.06); /* subtle border */
+  padding: 6px 0; /* spacing so hover bg doesn't touch edges */
+}
+
+/* Dropdown links */
+.dropdown-menu a {
+  padding: 10px 14px;
+  text-decoration: none;
+  color: #021D44;
+  font-size: 14px;
+  display: block;
+  border-radius: 6px; /* for hover bg rounding */
+  margin: 2px 8px; /* space on sides for rounded hover bg */
+  transition: background 0.25s ease, color 0.25s ease;
+  -webkit-tap-highlight-color: transparent; /* no tap highlight on mobile */
+}
+
+/* Hover effect */
+.dropdown-menu a:hover {
+  background: #021D44; /* solid blue */
+  color: white; /* text turns white */
+}
+
+/* Separator line for all items except last */
+.dropdown-menu a:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Caret rotation */
+.caret.rotate {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}

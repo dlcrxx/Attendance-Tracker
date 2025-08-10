@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UIP Attendance Tracker</title>
+    <!-- Google Material Symbols for icons -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="Login.css" />
+</head>
+<body>
+  <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="logo.png" alt="logo" />
+         <span class="logo-text">UIP Tracker</span>
+      </div>
+
+      <ul class="sidebar-links">
+        <li>
+          <a href="Dashboard">
+            <span class="material-symbols-outlined">space_dashboard</span>Dashboard
+            <span class="chevron">&gt;</span>
+          </a>
+        </li>
+        <li>
+          <a href="Attendance">
+            <span class="material-symbols-outlined">event_available</span>Attendance
+            <span class="chevron">&gt;</span>
+          </a>
+        </li>
+        <li>
+          <a href="OnlineUsers">
+            <span class="material-symbols-outlined">account_circle</span>Online Users
+            <span class="chevron">&gt;</span>
+          </a>
+        </li>
+        <li>
+          <a href="Event">
+            <span class="material-symbols-outlined">notifications_active</span>Event
+            <span class="chevron">&gt;</span>
+          </a>
+        </li>
+        <li>
+          <a href="Help">
+            <span class="material-symbols-outlined">help</span>Help
+            <span class="chevron">&gt;</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="Developers">
+            <span class="material-symbols-outlined">engineering</span>Developers
+            <span class="chevron">&gt;</span>
+          </a>
+        </li>
+
+        <li class="sidebar-profile">
+          <a href="Profile">
+          <span class="material-symbols-outlined">account_circle</span>Profile
+          <span class="chevron">&gt;</span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+    <!-- Top bar -->
+    <div class="top-bar">
+      <div class="profile-container">
+        <div class="profile-section" id="profileToggle">
+         <img src="profile.jpg" alt="Profile" id="profileImage">
+         <span class="name" id="profileName">User Name</span>
+         <span class="material-symbols-outlined caret" id="caretIcon">expand_more</span>
+        </div>
+       <div class="dropdown-menu" id="dropdownMenu">
+        <a href="#">Manage Profile</a>
+        <a href="#">Sign Out</a>
+       </div>
+      </div>
+    </div>
+
+    <!--Continueee-->
+
+  </main>
+
+  <script>
+    // ====== USER DATA (replace with backend data later) ======
+    let loggedInUser = {
+      firstName: "FirstName",
+      lastName: "LastName",
+      profilePic: "profile.jpg"
+    };
+
+    // Update greeting and profile
+    document.getElementById("profileName").textContent = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
+    document.getElementById("profileImage").src = loggedInUser.profilePic;
+
+    // ====== DROPDOWN TOGGLE ======
+    const profileToggle = document.getElementById("profileToggle");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    const caretIcon = document.getElementById("caretIcon");
+
+    profileToggle.addEventListener("click", () => {
+      const isVisible = dropdownMenu.style.display === "flex";
+      dropdownMenu.style.display = isVisible ? "none" : "flex";
+      caretIcon.classList.toggle("rotate", !isVisible);
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", (event) => {
+      if (!profileToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+        dropdownMenu.style.display = "none";
+        caretIcon.classList.remove("rotate");
+      }
+    });
+  </script>
+</body>
+</html>
