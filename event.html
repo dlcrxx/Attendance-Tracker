@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Event Calendar</title>
+  <link rel="stylesheet" href="event.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+</head>
+<body>
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="tracker logo.png" alt="logo" />
+        <span class="logo-text">UIP <br>Tracker</span>
+      </div>
+
+      <ul class="sidebar-links">
+        <li><a href="#"><span class="material-symbols-outlined">dashboard</span>Dashboard<span class="chevron">&gt;</span></a></li>
+        <li><a href="#"><span class="material-symbols-outlined">groups</span>Attendance<span class="chevron">&gt;</span></a></li>
+        <li><a href="#"><span class="material-symbols-outlined">account_circle</span>Online Users<span class="chevron">&gt;</span></a></li>
+        <li><a href="event.html"><span class="material-symbols-outlined">notifications_active</span>Event<span class="chevron">&gt;</span></a></li>
+        <li><a href="#"><span class="material-symbols-outlined">flag</span>Help<span class="chevron">&gt;</span></a></li>
+        <li><a href="#"><span class="material-symbols-outlined">groups</span>Developers<span class="chevron">&gt;</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <span><i class="fas fa-calendar-alt"></i> EVENT</span>
+        <div class="profile-dropdown">
+          <button class="profile-btn" id="profileBtn" aria-haspopup="true" aria-expanded="false">
+  <img src="SUBO.JPG" alt="profile photo" />
+  <span class="profile-info">
+    <span class="profile-name">Lastname, Firstname MI.</span>
+    <i class="fas fa-caret-down"></i>
+  </span>
+</button>
+
+  <ul class="dropdown-menu" id="profileMenu" role="menu" aria-label="Profile options">
+    <li><a href="#" role="menuitem">View Profile</a></li>
+    <li><a href="#" role="menuitem">Settings</a></li>
+    <li><a href="#" role="menuitem">Logout</a></li>
+  </ul>
+</div>
+
+      </header>
+
+      <div class="calendar-wrapper">
+        <section class="calendar">
+          <br>
+          <hr>
+          <div class="calendar-header">
+            <button id="prevMonth" class="arrow-btn"><i class="fas fa-chevron-left"></i></button>
+            
+            <div class="calendar-title">
+              <!-- Month Dropdown -->
+              <div class="dropdown-picker">
+                <button id="month-button" class="picker-btn">
+                  <span id="month-label">Month</span>          <i class="fa-solid fa-caret-down"></i></button>
+                <div id="month-dropdown" class="picker hidden">
+                  <div class="picker-grid"></div>
+                </div>
+              </div>
+
+              <!-- Year Dropdown -->
+              <div class="dropdown-picker">
+                <button id="year-button" class="picker-btn">
+                  <span id="year-label">Year</span>           <i class="fa-solid fa-caret-down"></i></button>
+                <div id="year-dropdown" class="picker hidden">
+                  <div class="picker-grid"></div>
+                </div>
+              </div>
+            </div>
+
+            <button id="nextMonth" class="arrow-btn"><i class="fas fa-chevron-right"></i></button>
+          </div>
+
+          <div class="calendar-grid">
+            <div id="calendar-weekdays" class="calendar-weekdays"></div>
+            <div id="calendar-days" class="calendar-days"></div>
+          </div>
+        </section>
+
+        <div id="event-display" class="event-display">
+          <h3>No Upcoming Activities</h3>
+          <p>No activities have been scheduled yet.</p>
+        </div>
+      </div>
+    </main>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const calendarDays = document.getElementById("calendar-days");
+  const eventDisplay = document.getElementById("event-display");
+  const calendarWeekdays = document.getElementById("calendar-weekdays");
+  const monthButton = document.getElementById("month-button");
+  const yearButton = document.getElementById("year-button");
+
+  const weekdayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  weekdayNames.forEach(day => {
+    const dayDiv = document.createElement("div");
+    dayDiv.classList.add("weekday");
+    dayDiv.textContent = day;
+    calendarWeekdays.appendChild(dayDiv);
+  });
+
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const events = [
+    { date: "2025-08-08", title: "Barangay Cleanup", description: "A community cleanup.", image: "SUBO.jpg" },
+    { date: "2025-08-10", title: "Barangay Cleanup", description: "A community cleanup.", image: "SUBO.jpg" },
+    { date: "2025-08-15", title: "Medical Mission", description: "Free checkups for residents.", image: "medical.jpg" }
+  ];
+
+  let selectedMonth = new Date().getMonth();
+  let selectedYear = new Date().getFullYear();
+
+  function renderCalendar() {
+    calendarDays.innerHTML = "";
+    const firstDay = new Date(selectedYear, selectedMonth, 1).getDay();
+    const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+      const empty = document.createElement("div");
+      empty.classList.add("day");
+      calendarDays.appendChild(empty);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateKey = `${selectedYear}-${String(selectedMonth + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+      const dayDiv = document.createElement("div");
+      dayDiv.textContent = d;
+      dayDiv.classList.add("day");
+
+      if (d === new Date().getDate() && selectedMonth === new Date().getMonth() && selectedYear === new Date().getFullYear()) {
+        dayDiv.classList.add("today");
+      }
+
+      const eventsForDate = events.filter(e => e.date === dateKey);
+      if (eventsForDate.length > 0) {
+        dayDiv.classList.add("has-event");
+        dayDiv.addEventListener("click", () => {
+          eventDisplay.innerHTML = `
+            <div class="event-section">
+              <h2 class="event-title"><i class="fas fa-calendar-alt"></i> Events for ${months[selectedMonth]} ${d}, ${selectedYear}</h2>
+              <div class="event-grid">
+                ${eventsForDate.map(event => `
+                  <div class="event-item">
+                    <h3>${event.title}</h3>
+                    <img src="${event.image}" alt="${event.title}" class="event-image">
+                    <p>${event.description}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+          document.querySelectorAll(".day").forEach(el => el.classList.remove("selected"));
+          dayDiv.classList.add("selected");
+        });
+      } else {
+        dayDiv.addEventListener("click", () => {
+          eventDisplay.innerHTML = `<h3>No Upcoming Activities</h3><p>No activities have been scheduled yet.</p>`;
+          document.querySelectorAll(".day").forEach(el => el.classList.remove("selected"));
+          dayDiv.classList.add("selected");
+        });
+      }
+      calendarDays.appendChild(dayDiv);
+    }
+
+document.getElementById("month-label").textContent = months[selectedMonth];
+document.getElementById("year-label").textContent = selectedYear;
+
+  }
+
+  const monthDropdown = document.getElementById("month-dropdown");
+  const yearDropdown = document.getElementById("year-dropdown");
+
+  // Populate months
+  months.forEach((m, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = m;
+    btn.addEventListener("click", () => {
+      selectedMonth = i;
+      document.getElementById("month-label").textContent = m;
+      monthDropdown.classList.add("hidden");
+      renderCalendar();
+    });
+    monthDropdown.querySelector(".picker-grid").appendChild(btn);
+  });
+
+  // Populate years
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear - 5; y <= currentYear + 5; y++) {
+    const btn = document.createElement("button");
+    btn.textContent = y;
+    btn.addEventListener("click", () => {
+      selectedYear = y;
+      document.getElementById("year-label").textContent = y;
+      yearDropdown.classList.add("hidden");
+      renderCalendar();
+    });
+    yearDropdown.querySelector(".picker-grid").appendChild(btn);
+  }
+
+  // Toggle dropdowns
+  monthButton.addEventListener("click", (e) => {
+    e.stopPropagation();
+    monthDropdown.classList.toggle("hidden");
+    yearDropdown.classList.add("hidden");
+  });
+
+  yearButton.addEventListener("click", (e) => {
+    e.stopPropagation();
+    yearDropdown.classList.toggle("hidden");
+    monthDropdown.classList.add("hidden");
+  });
+
+  // Close when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!monthDropdown.contains(e.target) && !monthButton.contains(e.target)) {
+      monthDropdown.classList.add("hidden");
+    }
+    if (!yearDropdown.contains(e.target) && !yearButton.contains(e.target)) {
+      yearDropdown.classList.add("hidden");
+    }
+  });
+
+  document.getElementById("prevMonth").addEventListener("click", () => {
+    if (selectedMonth === 0) { selectedMonth = 11; selectedYear--; }
+    else { selectedMonth--; }
+    renderCalendar();
+  });
+
+  document.getElementById("nextMonth").addEventListener("click", () => {
+    if (selectedMonth === 11) { selectedMonth = 0; selectedYear++; }
+    else { selectedMonth++; }
+    renderCalendar();
+  });
+
+  renderCalendar();
+
+  const profileBtn = document.getElementById("profileBtn");
+  const profileMenu = document.getElementById("profileMenu");
+
+  profileBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isExpanded = profileBtn.getAttribute("aria-expanded") === "true";
+    if (isExpanded) {
+      profileMenu.classList.remove("show");
+      profileBtn.setAttribute("aria-expanded", "false");
+    } else {
+      profileMenu.classList.add("show");
+      profileBtn.setAttribute("aria-expanded", "true");
+    }
+  });
+
+  document.addEventListener("click", () => {
+    profileMenu.classList.remove("show");
+    profileBtn.setAttribute("aria-expanded", "false");
+  });
+});
+
+</script>
+</body>
+</html>
