@@ -1,67 +1,32 @@
 <!DOCTYPE html>
-<!-- Coding By CodingNepal - www.codingnepalweb.com -->
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UIP Attendance Tracker</title>
-    <link rel="stylesheet" href="dash.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-    />
-
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard</title>
+  <link rel="styles eet" href="dash.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+</head>
+<body>
     <aside class="sidebar">
       <div class="sidebar-header">
-        <img src="logo.png" alt="logo" />
-         <span class="logo-text">UIP Tracker</span>
+        <img src="tracker logo.png" alt="logo" />
+        <span class="logo-text">UIP <br>Tracker</span>
       </div>
 
       <ul class="sidebar-links">
-        <li>
-          <a href="#" class="active">
-            <span class="material-symbols-outlined">dashboard</span>Dashboard
-            <span class="chevron">&gt;</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="material-symbols-outlined">groups</span>Attendance
-            <span class="chevron">&gt;</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="material-symbols-outlined">account_circle</span>Online Users
-            <span class="chevron">&gt;</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="material-symbols-outlined">notifications_active</span>Event
-            <span class="chevron">&gt;</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="material-symbols-outlined">flag</span>Help
-            <span class="chevron">&gt;</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <span class="material-symbols-outlined">groups</span>Developers
-            <span class="chevron">&gt;</span>
-          </a>
-        </li>
+        <li><a href="#"><span class="material-symbols-outlined">dashboard</span>Dashboard<span class="chevron">&gt;</span></a></li>
+        <li><a href="#"><span class="material-symbols-outlined">groups</span>Attendance<span class="chevron">&gt;</span></a></li>
+        <li><a href="#"><span class="material-symbols-outlined">account_circle</span>Online Users<span class="chevron">&gt;</span></a></li>
+        <li><a href="event.html"><span class="material-symbols-outlined">notifications_active</span>Event<span class="chevron">&gt;</span></a></li>
+        <li><a href="#"><span class="material-symbols-outlined">flag</span>Help<span class="chevron">&gt;</span></a></li>
+        <li><a href="#"><span class="material-symbols-outlined">groups</span>Developers<span class="chevron">&gt;</span></a></li>
       </ul>
     </aside>
 
     <main class="main-content">
-      <!-- Header -->
-      <div class="header">
+        <div class="header">
         <h1>Hello Danielle,</h1>
         <button class="user-profile" onclick="toggleDropdown()">
           <div class="user-avatar">DC</div>
@@ -211,10 +176,32 @@
         </div>
       </div>
 
+
     </main>
 
-    <script>
-      // Dropdown functionality
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+  const profileBtn = document.getElementById("profileBtn");
+  const profileMenu = document.getElementById("profileMenu");
+
+  profileBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isExpanded = profileBtn.getAttribute("aria-expanded") === "true";
+    if (isExpanded) {
+      profileMenu.classList.remove("show");
+      profileBtn.setAttribute("aria-expanded", "false");
+    } else {
+      profileMenu.classList.add("show");
+      profileBtn.setAttribute("aria-expanded", "true");
+    }
+  });
+
+  document.addEventListener("click", () => {
+    profileMenu.classList.remove("show");
+    profileBtn.setAttribute("aria-expanded", "false");
+  });
+    });
+          // Dropdown functionality
       function toggleDropdown() {
         const dropdown = document.getElementById('userDropdown');
         dropdown.classList.toggle('show');
@@ -229,7 +216,6 @@
           dropdown.classList.remove('show');
         }
       });
-
       // Update current time
       function updateTime() {
         const now = new Date();
@@ -257,7 +243,8 @@
           // Add active class to clicked link
           this.classList.add('active');
         });
-      });
-    </script>
-  </body>
+    });
+        
+</script>
+</body>
 </html>
